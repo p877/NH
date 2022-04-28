@@ -64,13 +64,39 @@ plt.tight_layout()
 plt.savefig("day.png")
 # from sklearn.metrics import classification_report
 # print(classification_report(y_test,y_pred))
+# k = 0
+# leenTable = 5
+# total = pd.Series(data=np.zeros(shape=len(mainfea)))
+# for i in range(len(mainfea)):
+#         if (i+1)%leenTable == 0:
+#          total[k] = mainfea.loc[i,'TotalNumberOfActions']
+#         k = k + 1
+# print(total[:k-1])
 
+leenTable = 5
+total = pd.Series(data=np.array(len(mainfea)))
+avg= pd.Series(data=np.array(len(mainfea)))
+std= pd.Series(data=np.array(len(mainfea)))
+k = 0
+for i, table in mainfea.groupby(['MemberId', 'JourneyId']):
+    vals = table.index.values
+    total[k] = table.loc[vals[table.__len__()-1], 'TotalNumberOfActions']
+    avg[k] = table.loc[vals[table.__len__() - 1], 'AvgNumberOfActions']
+    std[k] = table.loc[vals[table.__len__() - 1], 'StdDevNumberOfActions']
+    k = k + 1
 print("TotalNumberOfActions")
-print(mainfea['TotalNumberOfActions'])
+print(total)
 print("AvgNumberOfActions")
-print(mainfea['AvgNumberOfActions'].unique())
+print(avg)
 print("StdDevNumberOfActions")
-print(mainfea['StdDevNumberOfActions'].unique())
+print(std)
+
+# print("TotalNumberOfActions")
+# print(mainfea['TotalNumberOfActions'].unique())
+# print("AvgNumberOfActions")
+# print(mainfea['AvgNumberOfActions'].unique())
+# print("StdDevNumberOfActions")
+# print(mainfea['StdDevNumberOfActions'].unique())
 
 # df = mainfea[['MemberId', 'JourneyId','Time_JourneyStarted','D']]
 # df.to_csv("Member_Journey_StartDate_D.csv")
@@ -79,4 +105,6 @@ print(mainfea['StdDevNumberOfActions'].unique())
 #len(pd.read_csv("features2.csv").groupby(['MemberId','JourneyId']).size())
 #len(mainfea.groupby(['MemberId','JourneyId']).size())
 
-
+# file_path = 'randomfile.txt'
+# sys.stdout = open(file_path, "w")
+# print(mainfea['AvgNumberOfActions'].unique())
